@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Face from './Face';
+import Board from './Board';
 
-export default class Minesweeper extends Component {
+export default class Minesweeper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,10 +12,14 @@ export default class Minesweeper extends Component {
       numColumns: 9,
       numMines: 10,
       numFlags: 0,
-      numOpenedCells: 0,
+      numRevealedCells: 0,
       countdown: 0
     };
   }
+
+  // this.addNumRevealedCells = this.addNumRevealedCells.bind(this);
+  // this.checkNumFlags = this.checkNumFlags.bind(this);
+  // this.setGameOver = this.setGameOver.bind(this);
 
   componentWillUpdate() {
     if (this.state.gameStatus === 'playing') {
@@ -29,8 +34,8 @@ export default class Minesweeper extends Component {
   }
 
   checkForGameStatus() {
-    //if the number of mines added with the number of opened cells without bombs is greater than or equal to the amount of cells on the table, then game status can be set back to initialized in preparation for new game.
-    if (this.state.numMines + this.state.numOpenedCells >= this.state.numRows * this.state.numColumns) {
+    //if the number of mines added with the number of revealed cells without bombs is greater than or equal to the amount of cells on the table, then game status can be set back to initialized in preparation for new game.
+    if (this.state.numMines + this.state.numRevealedCells >= this.state.numRows * this.state.numColumns) {
       this.setState({
         status: 'initialized'
       });
@@ -39,7 +44,7 @@ export default class Minesweeper extends Component {
 
   timeCountdown() {
     // clock only ticks after player has clicked on one cell and is playing
-    if (this.state.numOpenedCells > 0 && this.state.gameStatus === 'playing') {
+    if (this.state.numRevealedCells > 0 && this.state.gameStatus === 'playing') {
       this.setState({
         countdown: this.state.countdown + 1
       });
@@ -53,11 +58,10 @@ export default class Minesweeper extends Component {
   }
 
   placeMines() {
-    let mines = this.state.numMines;
     var mineLocations = this.state.mineLocations;
-    for (var i = 0; i < mines; i++) {
+    for (var i = 0; i < this.state.numMines; i++) {
       //place the mines on random x & y coordinates
-      var cell = mineLocations[Math.floor(Math.random() * mines)][Math.floor(Math.random() * mines)];
+      var cell = mineLocations[Math.floor(Math.random() * this.state.numRows)][Math.floor(Math.random() * this.state.numColumns)];
       if (cell.hasMine) {
         i--; //we want the mine to still be placed somewhere else
       } else {
@@ -70,20 +74,21 @@ export default class Minesweeper extends Component {
     });
   }
 
-  addNumOpenedCells() {
-    if(this.state.numOpenedCells === 0){
+  addNumRevealedCells() {
+    if(this.state.numRevealedCells === 0){
         this.interval = setInterval(this.countdown.bind(this), 1000);
     }
     this.setState({
-        numOpenedCells : this.state.numOpenedCells++
+        numRevealedCells : this.state.numRevealedCells++
     });
   }
+
 
   resetGame() {
     this.setState({
       gameStatus: 'playing',
       numFlags: 0,
-      numOpenedCells: 0,
+      numRevealedCells: 0,
       countdown: 0
     });
   }
@@ -96,7 +101,7 @@ export default class Minesweeper extends Component {
       numColumns: 9,
       numMines: 10,
       numFlags: 0,
-      numOpenedCells: 0,
+      numRevealedCells: 0,
       countdown: 0
     });
   }
@@ -109,7 +114,7 @@ export default class Minesweeper extends Component {
       numColumns: 16,
       numMines: 40,
       numFlags: 0,
-      numOpenedCells: 0,
+      numRevealedCells: 0,
       countdown: 0
     });
   }
@@ -122,7 +127,7 @@ export default class Minesweeper extends Component {
       numColumns: 30,
       numMines: 99,
       numFlags: 0,
-      numOpenedCells: 0,
+      numRevealedCells: 0,
       countdown: 0
     });
   }
@@ -165,7 +170,7 @@ export default class Minesweeper extends Component {
             <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
           </span>
           <span> {this.state.countdown}</span>
-          <Board numOpenedCells={this.state.numOpenedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={this.setGameOver.bind(this)} addNumOpenedCells={this.addNumOpenedCells.bind(this)} checkNumFlags={this.checkNumFlags.bind(this)}/>
+          <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns}/>
         </div>
       </div>
     );
