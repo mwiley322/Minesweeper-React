@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Face from './Face';
 
 export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStatus: 'playing', //initialized, playing, gameOver
+      gameStatus: 'playing', //initialized, playing, gameOver, winner
       level: 'beginner', //beginner, intermediate, expert
       numRows: 9,
       numColumns: 9,
@@ -17,7 +18,7 @@ export default class Minesweeper extends Component {
 
   componentWillUpdate() {
     if (this.state.gameStatus === 'playing') {
-      this.checkForWinner();
+      this.checkForGameStatus();
     }
   }
 
@@ -161,7 +162,7 @@ export default class Minesweeper extends Component {
         <div>
           <span> {this.state.numMines - this.state.numFlags}</span>
           <span onClick={this.resetGame.bind(this)}>
-            <span className="face"></span>
+            <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
           </span>
           <span> {this.state.countdown}</span>
         </div>

@@ -6,14 +6,16 @@ export default class Face extends React.Component {
   }
 
   render() {
-    var face = this.props.gameStatus === 'winner'   ? 'fa fa-thumbs-o-up' :
-               this.props.gameStatus === 'gameOver' ? 'fa fa-frown-o'     :
-                                                  'fa fa-smile-o';
-
+    if (this.props.gameStatus === 'winner') {
+      var face = 'fa fa-thumbs-o-up';
+    } else if (this.props.gameStatus === 'gameOver') {
+      face = 'fa fa-frown-o';
+    } else {
+      face = 'fa fa-smile-o';
+    }
+    
     return (
-      <div className="face" onClick={this.props.onClick}>
-        <i className={icon} />
-      </div>
+      <i className={face} />
     )
   }
 }
