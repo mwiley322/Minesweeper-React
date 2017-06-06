@@ -111,11 +111,11 @@ export default class Board extends React.Component {
 
   render() {
 
-    var Rows = this.state.rows.map((row, index) => {
-                return(
-                    <Row cells={row} open={this.reveal.bind(this)} mark={this.mark.bind(this)} />
-                );
-            });
+    var Rows = this.state.rows.map((row) => {
+      return(
+        <Row cells={row} open={this.reveal.bind(this)} mark={this.mark.bind(this)} />
+      );
+    });
 
     return (
       <table>
