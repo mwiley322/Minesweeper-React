@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
 
 export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStatus: 'playing', //initialized, playing, gameOver, winner
+      gameStatus: 'playing', //initialized, playing, gameOver
       level: 'beginner', //beginner, intermediate, expert
       numRows: 9,
       numColumns: 9,
@@ -53,10 +52,11 @@ export default class Minesweeper extends Component {
   }
 
   placeMines() {
+    let mines = this.state.numMines;
     var mineLocations = this.state.mineLocations;
-    for (var i = 0; i < this.state.numMines; i++) {
+    for (var i = 0; i < mines; i++) {
       //place the mines on random x & y coordinates
-      var cell = mineLocations[Math.floor(Math.random() * this.state.mineNums)][Math.floor(Math.random() * this.state.mineNums)];
+      var cell = mineLocations[Math.floor(Math.random() * mines)][Math.floor(Math.random() * mines)];
       if (cell.hasMine) {
         i--; //we want the mine to still be placed somewhere else
       } else {
@@ -69,9 +69,103 @@ export default class Minesweeper extends Component {
     });
   }
 
+  addNumOpenedCells() {
+    if(this.state.numOpenedCells === 0){
+        this.interval = setInterval(this.countdown.bind(this), 1000);
+    }
+    this.setState({
+        numOpenedCells : this.state.numOpenedCells++
+    });
+  }
+
+  resetGame() {
+    this.setState({
+      gameStatus: 'playing',
+      numFlags: 0,
+      numOpenedCells: 0,
+      countdown: 0
+    });
+  }
+
+  setBeginner() {
+    this.setState({
+      gameStatus: 'playing',
+      level: 'beginner',
+      numRows: 9,
+      numColumns: 9,
+      numMines: 10,
+      numFlags: 0,
+      numOpenedCells: 0,
+      countdown: 0
+    });
+  }
+
+  setIntermediate() {
+    this.setState({
+      gameStatus: 'playing',
+      level: 'intermediate',
+      numRows: 16,
+      numColumns: 16,
+      numMines: 40,
+      numFlags: 0,
+      numOpenedCells: 0,
+      countdown: 0
+    });
+  }
+
+  setExpert() {
+    this.setState({
+      gameStatus: 'playing',
+      level: 'expert',
+      numRows: 16,
+      numColumns: 30,
+      numMines: 99,
+      numFlags: 0,
+      numOpenedCells: 0,
+      countdown: 0
+    });
+  }
+
   render() {
+    var _this = this;
+    var level = () => {
+      if (_this.state.level === 'beginner'){
+        return (
+          <div>
+            <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} checked />beginner</label>
+            <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} />intermediate</label>
+            <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} />expert</label>
+          </div>
+        );
+      } else if (_this.state.level === 'intermediate'){
+          return (
+            <div>
+              <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} />beginner</label>
+              <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} checked />intermediate</label>
+              <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} />expert</label>
+            </div>
+          );
+      } else if (_this.state.level === 'expert'){
+          return (
+            <div>
+              <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} />beginner</label>
+              <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} />intermediate</label>
+              <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} checked />expert</label>
+            </div>
+          );
+      }
+    };
     return (
-      <h1>{ this.state.gameStatus }</h1>
+      <div>
+        {level}
+        <div>
+          <span> {this.state.numMines - this.state.numFlags}</span>
+          <span onClick={this.resetGame.bind(this)}>
+            <span className="face"></span>
+          </span>
+          <span> {this.state.countdown}</span>
+        </div>
+      </div>
     );
   }
 }
