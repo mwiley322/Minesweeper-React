@@ -158,13 +158,14 @@ export default class Minesweeper extends Component {
     };
     return (
       <div>
-        {level}
+        {this.state.level}
         <div>
           <span> {this.state.numMines - this.state.numFlags}</span>
           <span onClick={this.resetGame.bind(this)}>
             <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
           </span>
           <span> {this.state.countdown}</span>
+          <Board numOpenedCells={this.state.numOpenedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={this.setGameOver.bind(this)} addNumOpenedCells={this.addNumOpenedCells.bind(this)} checkNumFlags={this.checkNumFlags.bind(this)}/>
         </div>
       </div>
     );
