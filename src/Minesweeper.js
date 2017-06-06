@@ -72,6 +72,8 @@ export default class Minesweeper extends React.Component {
     this.setState({
       mineLocations: mineLocations
     });
+
+    console.log(mineLocations);
   }
 
   addNumRevealedCells() {

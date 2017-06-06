@@ -1,5 +1,5 @@
 import React from 'react';
-import Rows from './Rows';
+import Row from './Row';
 
 export default class Board extends React.Component {
   constructor(props) {
@@ -20,12 +20,12 @@ export default class Board extends React.Component {
 
     createGameBoard(props) {
       var gameBoard = [];
-      for ( var i = 0; i < props.numRows; i++ ) {
-        gameBoard.push([]);
-        for ( var j = 0; j < props.numColumns; j++ ) {
+
+      for ( var row = 0; row < props.numRows; row++ ) {
+        for ( var column = 0; column < props.numColumns; column++ ) {
           gameBoard.push({
-            x: j,
-            y: i,
+            x: column,
+            y: row,
             numNeighboringMines: 0,
             isRevealed: false,
             hasMine: false,
@@ -33,15 +33,17 @@ export default class Board extends React.Component {
           });
         }
       }
-      console.log('I AM GAMEBAORD', gameBoard)
-      for (var k = 0; k < props.numMines; k++) {
-        var cell = gameBoard[Math.floor(Math.random()*props.numRows)][Math.floor(Math.random()*props.numColumns)];
-          if (cell.hasMine) {
-            k--;
-          } else {
-            cell.hasMine = true;
-          }
-      }
+
+
+      // for (var i = 0; i < props.numMines; i++) {
+      //   var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
+      //   console.log(cell)
+      //   if (cell.hasMine) {
+      //     i--;
+      //   } else {
+      //     cell.hasMine = true;
+      //   }
+      // }
 
       return gameBoard;
     }
@@ -108,6 +110,12 @@ export default class Board extends React.Component {
     }
 
   render() {
+
+    var Rows = this.state.rows.map((row, index) => {
+                return(
+                    <Row cells={row} open={this.reveal.bind(this)} mark={this.mark.bind(this)} />
+                );
+            });
 
     return (
       <table>
