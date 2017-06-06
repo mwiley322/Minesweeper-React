@@ -1,13 +1,14 @@
 import React from 'react';
-import Cell from './Cell';
+import Cell from './Cell'
 
 
 export default class Row extends React.Component {
   constructor(props) {
     super(props);
+    var cellsArr = props.cells.concat([props.cells]);
     this.state = {
-      cells: props.cells
-    }
+        cells : cellsArr
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,7 +20,7 @@ export default class Row extends React.Component {
   render() {
     var Cells = this.state.cells.map((cell) => {
       return (
-        <Cell cell={cell} reveal={this.props.reveal} mark={this.props.reveal} />
+        <Cell cell={cell} reveal={this.props.reveal} mark={this.props.mark} />
       );
     });
     return (
