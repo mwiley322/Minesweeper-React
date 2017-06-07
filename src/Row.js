@@ -5,9 +5,9 @@ import Cell from './Cell'
 export default class Row extends React.Component {
   constructor(props) {
     super(props);
-    var cellsArr = props.cells.concat([props.cells]);
+    // var cellsArr = props.cells.concat([props.cells]);
     this.state = {
-        cells : cellsArr
+        cells : props.cells
     };
   }
 
@@ -18,9 +18,9 @@ export default class Row extends React.Component {
   }
 
   render() {
-    var Cells = this.state.cells.map((cell) => {
+    var Cells = this.state.cells.map((cell, index) => {
       return (
-        <Cell cell={cell} reveal={this.props.reveal} mark={this.props.mark} />
+        <Cell key={index.toString()} cell={cell} reveal={this.props.reveal} mark={this.props.mark} />
       );
     });
     return (

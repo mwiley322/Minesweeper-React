@@ -1,10 +1,6 @@
 import React from 'react';
 
 export default class Face extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     if (this.props.gameStatus === 'winner') {
       var face = 'fa fa-thumbs-o-up';
@@ -13,7 +9,7 @@ export default class Face extends React.Component {
     } else {
       face = 'fa fa-smile-o';
     }
-    
+
     return (
       <i className={face} />
     )

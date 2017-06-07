@@ -17,9 +17,7 @@ export default class Minesweeper extends React.Component {
     };
   }
 
-  // this.addNumRevealedCells = this.addNumRevealedCells.bind(this);
-  // this.checkNumFlags = this.checkNumFlags.bind(this);
-  // this.setGameOver = this.setGameOver.bind(this);
+
 
   componentWillUpdate() {
     if (this.state.gameStatus === 'playing') {
@@ -165,14 +163,14 @@ export default class Minesweeper extends React.Component {
     };
     return (
       <div>
-        {this.state.level}
+        {level}
         <div>
           <span> {this.state.numMines - this.state.numFlags}</span>
           <span onClick={this.resetGame.bind(this)}>
             <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
           </span>
           <span> {this.state.countdown}</span>
-          <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns}/>
+          <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={this.setGameOver} addNumRevealedCells={this.addNumRevealedCells} checkNumFlags={this.checkNumFlags} />
         </div>
       </div>
     );
