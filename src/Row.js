@@ -11,6 +11,10 @@ export default class Row extends React.Component {
     };
   }
 
+componentWillMount() {
+  console.log(this.state.cells);
+}
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       cells: nextProps.cells
@@ -20,12 +24,13 @@ export default class Row extends React.Component {
   render() {
     var Cells = this.state.cells.map((cell, index) => {
       return (
-        <Cell key={index.toString()} cell={cell} reveal={this.props.reveal} mark={this.props.mark} />
+        <Cell key={index.toString()} cell={[cell]} reveal={this.props.reveal} mark={this.props.mark} />
       );
     });
     return (
       <tr>
         {Cells}
+        x-axis
       </tr>
     )
   }

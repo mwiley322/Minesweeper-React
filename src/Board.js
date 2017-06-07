@@ -9,6 +9,10 @@ export default class Board extends React.Component {
     };
   }
 
+  componentWillMount() {
+    console.log(this.state.rows, "all cells");
+  }
+
   //compares current props with new game props (in case of reset) and changes board if needed
   componentWillReceiveProps(nextProps) {
     if (this.props.numRevealedCells > nextProps.numRevealedCells || this.props.numColumns !== nextProps.numColumns) {
@@ -21,7 +25,7 @@ export default class Board extends React.Component {
     createGameBoard(props) {
       var gameBoard = [];
 
-      //create a cell object with properties  for each x-y coordinate on the gameboard
+      //create a cell object with properties for each x-y coordinate on the gameboard
       for ( var row = 0; row < props.numRows; row++ ) {
         for ( var column = 0; column < props.numColumns; column++ ) {
           gameBoard.push({
@@ -36,16 +40,16 @@ export default class Board extends React.Component {
       }
 
       //place mines random throughout the gameboard
-      for (var i = 0; i < props.numMines; i++) {
-        var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
-        if (cell.hasMine) {
-          //decrement the counter so that it just goes and finds another place to put that mine
-          i--;
-        } else {
-          //place the mine there and attach its key value
-          cell.hasMine = true;
-        }
-      }
+      // for (var i = 0; i < props.numMines; i++) {
+      //   var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
+      //   if (cell.hasMine) {
+      //     //decrement the counter so that it just goes and finds another place to put that mine
+      //     i--;
+      //   } else {
+      //     //place the mine there and attach its key value
+      //     cell.hasMine = true;
+      //   }
+      // }
 
       return gameBoard;
     }
@@ -109,7 +113,7 @@ export default class Board extends React.Component {
       return neighboringMines;
     }
 
-    //if the player hits a cell that has 0
+    //if the player hits a cell that has 0 then it must reveal all of those that it touches if they have 0 recursively until it hits a wall of cells with neighboring mines
     revealAround(cell){
       var rows = this.state.rows;
 
@@ -128,17 +132,16 @@ export default class Board extends React.Component {
     }
 
   render() {
-
     var Rows = this.state.rows.map((row, index) => {
       return(
-        <Row key={index.toString()} cells={row} reveal={this.reveal.bind(this)} mark={this.mark.bind(this)} />
+        <Row key={index.toString()} cells={[row]} reveal={this.reveal.bind(this)} mark={this.mark.bind(this)} />
       );
     });
-
     return (
       <table>
         <tbody>
           {Rows}
+          y-axis
         </tbody>
       </table>
     );

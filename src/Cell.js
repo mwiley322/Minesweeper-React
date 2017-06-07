@@ -11,6 +11,7 @@ export default class Cell extends React.Component {
       }
   }
 
+//the next time this components receives props(likely when another cell is clicked, we will get its information)
   componentWillReceiveProps(nextProps) {
     this.setState({
       hasMine: nextProps.cell.hasMine,
@@ -61,8 +62,9 @@ export default class Cell extends React.Component {
       }
     }
     return (
-      <td className="cell" onClick={this.open.bind(this)} onContextMenu={this.mark.bind(this)}>
+      <td className="cell" onClick={this.reveal.bind(this)} onContextMenu={this.mark.bind(this)}>
         {cell}
+        cell
       </td>
     );
   }
