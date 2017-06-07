@@ -1,4 +1,5 @@
 import React from 'react';
+import './Cell.css';
 
 export default class Cell extends React.Component {
   constructor(props) {
@@ -64,7 +65,6 @@ export default class Cell extends React.Component {
     return (
       <td className="cell" onClick={this.reveal.bind(this)} onContextMenu={this.mark.bind(this)}>
         {cell}
-        cell
       </td>
     );
   }

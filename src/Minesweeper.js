@@ -15,9 +15,8 @@ export default class Minesweeper extends React.Component {
       numRevealedCells: 0,
       countdown: 0
     };
+
   }
-
-
 
   componentWillUpdate() {
     if (this.state.gameStatus === 'playing') {
@@ -85,6 +84,7 @@ export default class Minesweeper extends React.Component {
 
 
   resetGame() {
+    clearInterval(this.interval);
     this.setState({
       gameStatus: 'playing',
       numFlags: 0,
@@ -94,6 +94,7 @@ export default class Minesweeper extends React.Component {
   }
 
   setBeginner() {
+    clearInterval(this.interval);
     this.setState({
       gameStatus: 'playing',
       level: 'beginner',
@@ -107,6 +108,7 @@ export default class Minesweeper extends React.Component {
   }
 
   setIntermediate() {
+    clearInterval(this.interval);
     this.setState({
       gameStatus: 'playing',
       level: 'intermediate',
@@ -120,6 +122,7 @@ export default class Minesweeper extends React.Component {
   }
 
   setExpert() {
+    clearInterval(this.interval);
     this.setState({
       gameStatus: 'playing',
       level: 'expert',
@@ -132,47 +135,89 @@ export default class Minesweeper extends React.Component {
     });
   }
 
-  render() {
-    var _this = this;
-    var level = () => {
-      if (_this.state.level === 'beginner'){
-        return (
-          <div>
-            <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} checked />beginner</label>
-            <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} />intermediate</label>
-            <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} />expert</label>
-          </div>
-        );
-      } else if (_this.state.level === 'intermediate'){
-          return (
-            <div>
-              <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} />beginner</label>
-              <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} checked />intermediate</label>
-              <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} />expert</label>
-            </div>
-          );
-      } else if (_this.state.level === 'expert'){
-          return (
-            <div>
-              <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} />beginner</label>
-              <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} />intermediate</label>
-              <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} checked />expert</label>
-            </div>
-          );
-      }
-    };
-    return (
-      <div>
-        {level}
-        <div>
-          <span> {this.state.numMines - this.state.numFlags}</span>
-          <span onClick={this.resetGame.bind(this)}>
-            <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
-          </span>
-          <span> {this.state.countdown}</span>
-          <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={this.setGameOver} addNumRevealedCells={this.addNumRevealedCells} checkNumFlags={this.checkNumFlags} />
-        </div>
-      </div>
-    );
-  }
+//   render() {
+//     let level = () => {
+//       if (this.state.level === 'beginner'){
+//         return (
+//           <div>
+//             <label><input type="radio" name="level" onChange={{} => this.setBeginner()} checked />beginner</label>
+//             <label><input type="radio" name="level" onChange={{} => this.setIntermediate()} />intermediate</label>
+//             <label><input type="radio" name="level" onChange={{} => this.setExpert()} />expert</label>
+//           </div>
+//         );
+//       } else if (this.state.level === 'intermediate'){
+//           return (
+//             <div>
+//               <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} />beginner</label>
+//               <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} checked />intermediate</label>
+//               <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} />expert</label>
+//             </div>
+//           );
+//       } else if (this.state.level === 'expert'){
+//           return (
+//             <div>
+//               <label><input type="radio" name="level" onChange={this.setBeginner.bind(this)} />beginner</label>
+//               <label><input type="radio" name="level" onChange={this.setIntermediate.bind(this)} />intermediate</label>
+//               <label><input type="radio" name="level" onChange={this.setExpert.bind(this)} checked />expert</label>
+//             </div>
+//           );
+//       }
+//     };
+//     return (
+//       <div>
+//         {level}
+//         <div>
+//           <span> {this.state.numMines - this.state.numFlags}</span>
+//           <span onClick={this.resetGame.bind(this)}>
+//             <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
+//           </span>
+//           <span> {this.state.countdown}</span>
+//           <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={this.setGameOver} addNumRevealedCells={this.addNumRevealedCells} checkNumFlags={this.checkNumFlags} />
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+render() {
+   var level = this.state.level;
+   return (
+     <div>
+       <div>
+         <label>
+           <input type="radio"
+                  name="level"
+                  onChange={ () => this.setBeginner() }
+                  checked={level === 'beginner'}
+           />
+           beginner
+         </label>
+         <label>
+           <input type="radio"
+                   name="level"
+                   onChange={() => this.setIntermediate() }
+                   checked={level === 'intermediate'}
+           />
+           intermediate
+         </label>
+         <label>
+           <input type="radio"
+                   name="level"
+                   onChange={ () => this.setExpert() }
+                   checked={level === 'expert'}
+           />
+           expert
+         </label>
+       </div>
+       <div>
+         <span> {this.state.numMines - this.state.numFlags}</span>
+         <span onClick={this.resetGame.bind(this)}>
+           <span className="face"><Face gameStatus= {this.state.gameStatus} /></span>
+         </span>
+         <span> {this.state.countdown}</span>
+         <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={this.setGameOver} addNumRevealedCells={this.addNumRevealedCells} checkNumFlags={this.checkNumFlags} />
+       </div>
+     </div>
+   );
+ }
 }

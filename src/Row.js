@@ -5,7 +5,6 @@ import Cell from './Cell'
 export default class Row extends React.Component {
   constructor(props) {
     super(props);
-    // var cellsArr = props.cells.concat([props.cells]);
     this.state = {
         cells : props.cells
     };
@@ -28,10 +27,11 @@ componentWillMount() {
       );
     });
     return (
-      <tr>
-        {Cells}
-        x-axis
-      </tr>
+      <tbody>
+        <tr>
+          {Cells}
+        </tr>
+      </tbody>
     )
   }
 }

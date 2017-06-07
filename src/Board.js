@@ -1,5 +1,6 @@
 import React from 'react';
 import Row from './Row';
+import './App.css';
 
 export default class Board extends React.Component {
   constructor(props) {
@@ -27,8 +28,10 @@ export default class Board extends React.Component {
 
       //create a cell object with properties for each x-y coordinate on the gameboard
       for ( var row = 0; row < props.numRows; row++ ) {
+        //each new row needs a new array to avoid a single line of the cells
+        gameBoard.push([]);
         for ( var column = 0; column < props.numColumns; column++ ) {
-          gameBoard.push({
+          gameBoard[row].push({
             x: column,
             y: row,
             numNeighboringMines: 0,
@@ -39,17 +42,17 @@ export default class Board extends React.Component {
         }
       }
 
-      //place mines random throughout the gameboard
-      // for (var i = 0; i < props.numMines; i++) {
-      //   var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
-      //   if (cell.hasMine) {
-      //     //decrement the counter so that it just goes and finds another place to put that mine
-      //     i--;
-      //   } else {
-      //     //place the mine there and attach its key value
-      //     cell.hasMine = true;
-      //   }
-      // }
+      // place mines randomly throughout the gameboard
+      for (var i = 0; i < props.numMines; i++) {
+        var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
+        if (cell.hasMine) {
+          //decrement the counter so that it just goes and finds another place to put that mine
+          i--;
+        } else {
+          //place the mine there and attach its key value
+          cell.hasMine = true;
+        }
+      }
 
       return gameBoard;
     }
@@ -134,15 +137,12 @@ export default class Board extends React.Component {
   render() {
     var Rows = this.state.rows.map((row, index) => {
       return(
-        <Row key={index.toString()} cells={[row]} reveal={this.reveal.bind(this)} mark={this.mark.bind(this)} />
+        <Row key={index.toString()} cells={row} reveal={this.reveal.bind(this)} mark={this.mark.bind(this)} />
       );
     });
     return (
-      <table>
-        <tbody>
-          {Rows}
-          y-axis
-        </tbody>
+      <table className="gameBoard">
+        {Rows}
       </table>
     );
   }
