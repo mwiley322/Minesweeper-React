@@ -34,10 +34,9 @@ export default class Cell extends React.Component {
   }
 
   render() {
-    var _this = this;
     var cell = () => {
-      if(_this.state.isRevealed) {
-        if(_this.state.hasMine) {
+      if(this.state.isRevealed) {
+        if(this.state.hasMine) {
           return (
             <div className="mineCell">
               <span>mine</span>
@@ -46,11 +45,11 @@ export default class Cell extends React.Component {
         } else {
           return (
             <div class="revealedCell">
-              <span>{_this.state.numNeighboringMines}</span>
+              <span>{this.state.numNeighboringMines}</span>
             </div>
           );
         }
-      } else if (_this.state.hasFlag) {
+      } else if (this.state.hasFlag) {
         return (
           <div class="flagCell">
             <span>flag</span>
@@ -63,7 +62,7 @@ export default class Cell extends React.Component {
       }
     }
     return (
-      <td className="cell" onClick={this.reveal.bind(this)} onContextMenu={this.mark.bind(this)}>
+      <td className="cell" onClick={ () => this.reveal() } onContextMenu={ () => this.mark() }>
         {cell}
       </td>
     );

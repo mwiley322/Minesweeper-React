@@ -57,12 +57,13 @@ export default class Board extends React.Component {
       return gameBoard;
     }
 
-    reveal(cell) {
+    reveal(cell, props) {
       var num = this.countMines(cell);
       var rows = this.state.rows;
+      console.log('in reveal', cell);
       //if the cell hasn't already been clicked and revealed, add it to the counter that checks whether the game status should change
       if (!rows[cell.y][cell.x].isRevealed) {
-        this.props.addNumRevealedCells();
+        props.addNumRevealedCells();
       }
       //cell is revealed and visible
       rows[cell.y][cell.x].isRevealed = true;
@@ -72,7 +73,7 @@ export default class Board extends React.Component {
       });
       if (rows[cell.y][cell.x].hasFlag) {
         rows[cell.y][cell.x].hasFlag = false;
-        this.props.checkNumFlags(-1);
+        props.checkNumFlags(-1);
       }
       //if the cell does not have any neighboring mines, reveal those around it.
       if(!cell.hasMine && num === 0){
@@ -80,7 +81,7 @@ export default class Board extends React.Component {
       }
       //when player hits a mine, it is game over regardless of how far they have gone.
       if(cell.hasMine){
-        this.props.setGameOver();
+        props.setGameOver();
       }
     }
 
@@ -101,6 +102,7 @@ export default class Board extends React.Component {
       let rows = this.state.rows;
       for ( var row = -1; row <= 1; row++ ) {
         for ( var col = -1; col <= 1; col++ ) {
+          console.log('cell!', cell);
           if ( cell.y - 0 + row >= 0
             && cell.x - 0 + col >= 0
             && cell.y - 0 + row < rows.length
@@ -117,27 +119,27 @@ export default class Board extends React.Component {
     }
 
     //if the player hits a cell that has 0 then it must reveal all of those that it touches if they have 0 recursively until it hits a wall of cells with neighboring mines
-    revealAround(cell){
+    revealAround(cell, props){
       var rows = this.state.rows;
 
       for ( var row = -1; row <= 1; row++ ) {
         for ( var col = -1; col <= 1; col++ ) {
           if (cell.y - 0 + row >= 0
               && cell.x - 0 + col >= 0
-              && cell.y - 0 + row < this.state.rows.length
-              && cell.x - 0 + col < this.state.rows[0].length
-              && !this.state.rows[cell.y - 0 + row][cell.x - 0 + col].hasMine
-              && !this.state.rows[cell.y - 0 + row][cell.x - 0 + col].isRevealed) {
-                this.reveal(rows[cell.y - 0 + row][cell.x - 0 + col]);
+              && cell.y - 0 + row < rows.length
+              && cell.x - 0 + col < rows[0].length
+              && !rows[cell.y - 0 + row][cell.x - 0 + col].hasMine
+              && !rows[cell.y - 0 + row][cell.x - 0 + col].isRevealed) {
+                this.reveal(rows[cell.y - 0 + row][cell.x - 0 + col], props);
           }
         }
       }
     }
 
-  render() {
+  render(props) {
     var Rows = this.state.rows.map((row, index) => {
       return(
-        <Row key={index.toString()} cells={row} reveal={this.reveal.bind(this)} mark={this.mark.bind(this)} />
+        <Row key={index.toString()} cells={row} reveal={ () => this.reveal() } mark={ () => this.mark() } />
       );
     });
     return (
