@@ -1,17 +1,29 @@
-.gameBoard {
+#gameBoard {
   margin: 0 auto;
 }
 
-.gameInfo {
+#levels {
+  width: 100%;
+  margin: 0 auto;
+}
+
+#gameInfo {
   padding: 20px;
 }
 
-.gameInfoRight {
+#gameInfoRight {
   padding-right: 7%;
+  cursor: default;
 }
 
-.gameInfoLeft {
+#face {
+  font-size: 2.5em;
+  cursor: pointer;
+}
+
+#gameInfoLeft {
   padding-left: 7%;
+  cursor: default;
 }
 
 .levelSelect {

@@ -7,7 +7,7 @@ export default class Minesweeper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStatus: 'playing', //initialized, playing, gameOver, winner
+      gameStatus: 'playing', //initialized, playing, gameOver, add winner?
       level: 'beginner', //beginner, intermediate, expert
       numRows: 9,
       numColumns: 9,
@@ -16,7 +16,6 @@ export default class Minesweeper extends React.Component {
       numRevealedCells: 0,
       countdown: 0
     };
-
   }
 
   componentWillUpdate() {
@@ -142,7 +141,7 @@ export default class Minesweeper extends React.Component {
     var level = this.state.level;
     return (
       <div>
-        <div>
+        <div id="levels">
           <label className="levelSelect">
             <input type="radio"
                    name="level"
@@ -169,12 +168,12 @@ export default class Minesweeper extends React.Component {
           </label>
         </div>
         <div>
-          <div className="gameInfo">
-            <span className="gameInfoRight">{this.state.numMines - this.state.numFlags}</span>
+          <div id="gameInfo">
+            <span id="gameInfoRight" title="Mines remaining on the board">{this.state.numMines - this.state.numFlags}</span>
             <span onClick={ () => this.resetGame() }>
-              <span className="face"><Face gameStatus={this.state.gameStatus} /></span>
+              <span id="face" title="Restart game"><Face gameStatus={this.state.gameStatus} /></span>
             </span>
-            <span className="gameInfoLeft">{this.state.countdown}</span>
+            <span id="gameInfoLeft" title="Time spent this round">{this.state.countdown}</span>
           </div>
           <div>
             <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={ () => this.setGameOver() } addNumRevealedCells={ () => this.addNumRevealedCells() } countNumFlags={ () => this.countNumFlags() } />

@@ -62,7 +62,7 @@ export default class Board extends React.Component {
       }
       //cell is revealed and visible
       rows[cell.y][cell.x].isRevealed = true;
-      rows[cell.y][cell.x].numNeighboringMines = cell.hasMine ? "mine" : num;
+      rows[cell.y][cell.x].numNeighboringMines = cell.hasMine ? "!" : num;
       this.setState({
         rows : rows
       });
@@ -93,11 +93,11 @@ export default class Board extends React.Component {
 
     countMines(cell) {
       var neighboringMines = 0;
+      console.log('IN COUNT MINE', cell)
       //the rows and columns measure 3 across on the x-axis, -1 on the left, 0 in center, 1 on the right and likewise up and down for y axis
       let rows = this.state.rows;
       for ( var row = -1; row <= 1; row++ ) {
         for ( var col = -1; col <= 1; col++ ) {
-          console.log('cell!', cell);
           if ( cell.y - 0 + row >= 0
             && cell.x - 0 + col >= 0
             && cell.y - 0 + row < rows.length
@@ -138,7 +138,7 @@ export default class Board extends React.Component {
       );
     });
     return (
-      <table className="gameBoard">
+      <table id="gameBoard">
         {Rows}
       </table>
     );

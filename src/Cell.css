@@ -9,23 +9,28 @@
 }
 
 .flagCell {
-  background-color: orange;
-}
-
-.coveredCell {
-  background-color: blue;
+  background: url("./flag.png") no-repeat center orange;
+  background-size: contain;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
   height: 100%;
 }
 
+/*.coveredCell {
+  background-color: blue;
+  width: 100%;
+}*/
+
 .revealedCell {
-  background-color: #ddd;
-  border: 1px solid #ddd;
+  background-color: white;
 }
 
 .mineCell {
-  background-color: red;
-}
-
-.face {
-  font-size: 2.5em;
+  background: url("./mine.jpg") no-repeat center red;
+  background-size: contain;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }

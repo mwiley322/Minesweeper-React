@@ -1,7 +1,13 @@
-# MineSweeper - with React!
+# Minesweeper - with React!
 
-1. `$ npm install `
+This is the classic Minesweeper game revitalized with React.js. Behold!
 
-2. `$ npm start `
+Check it out online <a href="https://react-minesweeper.herokuapp.com/">here</a> or run it locally with these instructions:
 
-3. Check it out on localhost:3000!
+1. Clone this repo & CD into it
+
+2. `$ npm install `
+
+3. `$ npm start `
+
+4. Check it out on localhost:3000!
