@@ -10,10 +10,6 @@ export default class Board extends React.Component {
     };
   }
 
-  componentWillMount() {
-    console.log(this.state.rows, "all cells");
-  }
-
   //compares current props with new game props (in case of reset) and changes board if needed
   componentWillReceiveProps(nextProps) {
     if (this.props.numRevealedCells > nextProps.numRevealedCells || this.props.numColumns !== nextProps.numColumns) {
@@ -23,44 +19,43 @@ export default class Board extends React.Component {
     }
   }
 
-    createGameBoard(props) {
-      var gameBoard = [];
+  //this function puts all cells in their location & sets the mines randomly throughout
+  createGameBoard(props) {
+    var gameBoard = [];
 
-      //create a cell object with properties for each x-y coordinate on the gameboard
-      for ( var row = 0; row < props.numRows; row++ ) {
-        //each new row needs a new array to avoid a single line of the cells
-        gameBoard.push([]);
-        for ( var column = 0; column < props.numColumns; column++ ) {
-          gameBoard[row].push({
-            x: column,
-            y: row,
-            numNeighboringMines: 0,
-            isRevealed: false,
-            hasMine: false,
-            hasFlag: false
-          });
-        }
+    //create a cell object with properties for each x-y coordinate on the gameboard
+    for ( var row = 0; row < props.numRows; row++ ) {
+      //each new row needs a new array to avoid a single line of the cells
+      gameBoard.push([]);
+      for ( var column = 0; column < props.numColumns; column++ ) {
+        gameBoard[row].push({
+          x: column,
+          y: row,
+          numNeighboringMines: 0,
+          isRevealed: false,
+          hasMine: false,
+          hasFlag: false
+        });
       }
-
-      // place mines randomly throughout the gameboard
-      for (var i = 0; i < props.numMines; i++) {
-        var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
-        if (cell.hasMine) {
-          //decrement the counter so that it just goes and finds another place to put that mine
-          i--;
-        } else {
-          //place the mine there and attach its key value
-          cell.hasMine = true;
-        }
-      }
-
-      return gameBoard;
     }
+
+    // place mines randomly throughout the gameboard
+    for (var i = 0; i < props.numMines; i++) {
+      var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
+      if (cell.hasMine) {
+        //decrement the counter so that it just goes and finds another place to put that mine
+        i--;
+      } else {
+        //place the mine there and attach its key value
+        cell.hasMine = true;
+      }
+    }
+    return gameBoard;
+  }
 
     reveal(cell, props) {
       var num = this.countMines(cell);
       var rows = this.state.rows;
-      console.log('in reveal', cell);
       //if the cell hasn't already been clicked and revealed, add it to the counter that checks whether the game status should change
       if (!rows[cell.y][cell.x].isRevealed) {
         props.addNumRevealedCells();
@@ -73,14 +68,14 @@ export default class Board extends React.Component {
       });
       if (rows[cell.y][cell.x].hasFlag) {
         rows[cell.y][cell.x].hasFlag = false;
-        props.checkNumFlags(-1);
+        props.countNumFlags(-1);
       }
       //if the cell does not have any neighboring mines, reveal those around it.
-      if(!cell.hasMine && num === 0){
+      if (!cell.hasMine && num === 0) {
         this.revealAround(cell);
       }
       //when player hits a mine, it is game over regardless of how far they have gone.
-      if(cell.hasMine){
+      if (cell.hasMine) {
         props.setGameOver();
       }
     }
@@ -93,7 +88,7 @@ export default class Board extends React.Component {
       this.setState({
         rows : rows
       });
-      this.props.checkNumFlags(thisCell.hasFlag ? 1 : -1);
+      this.props.countNumFlags(thisCell.hasFlag ? 1 : -1);
     }
 
     countMines(cell) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import Face from './Face';
 import Board from './Board';
+import './App.css';
 
 export default class Minesweeper extends React.Component {
   constructor(props) {
@@ -22,6 +23,10 @@ export default class Minesweeper extends React.Component {
     if (this.state.gameStatus === 'playing') {
       this.checkForGameStatus();
     }
+  }
+
+  componentWillMount() {
+      this.interval = [];
   }
 
   setGameOver() {
@@ -54,31 +59,29 @@ export default class Minesweeper extends React.Component {
     });
   }
 
-  placeMines() {
-    var mineLocations = this.state.mineLocations;
-    for (var i = 0; i < this.state.numMines; i++) {
-      //place the mines on random x & y coordinates
-      var cell = mineLocations[Math.floor(Math.random() * this.state.numRows)][Math.floor(Math.random() * this.state.numColumns)];
-      if (cell.hasMine) {
-        i--; //we want the mine to still be placed somewhere else
-      } else {
-        cell.hasMine = true; //otherwise we place it there and remember that it is there.
-      }
-    }
-    //store information on mine location to the state
-    this.setState({
-      mineLocations: mineLocations
-    });
-
-    console.log(mineLocations);
-  }
+  // placeMines() {
+  //   var mineLocations = this.state.mineLocations;
+  //   for (var i = 0; i < this.state.numMines; i++) {
+  //     //place the mines on random x & y coordinates
+  //     var cell = mineLocations[Math.floor(Math.random() * this.state.numRows)][Math.floor(Math.random() * this.state.numColumns)];
+  //     if (cell.hasMine) {
+  //       i--; //we want the mine to still be placed somewhere else
+  //     } else {
+  //       cell.hasMine = true; //otherwise we place it there and remember that it is there.
+  //     }
+  //   }
+  //   //store information on mine location to the state
+  //   this.setState({
+  //     mineLocations: mineLocations
+  //   });
+  // }
 
   addNumRevealedCells() {
     if(this.state.numRevealedCells === 0){
-        this.interval = setInterval(this.countdown.bind(this), 1000);
+      this.interval = setInterval(this.timeCountdown.bind(this), 1000);
     }
     this.setState({
-        numRevealedCells : this.state.numRevealedCells++
+      numRevealedCells : this.state.numRevealedCells++
     });
   }
 
@@ -140,38 +143,42 @@ export default class Minesweeper extends React.Component {
     return (
       <div>
         <div>
-          <label>
+          <label className="levelSelect">
             <input type="radio"
                    name="level"
                    onChange={ () => this.setBeginner() }
                    checked={level === 'beginner'}
             />
-             Beginner
+            <span className="levelType">Beginner</span>
           </label>
-          <label>
+          <label className="levelSelect">
             <input type="radio"
                     name="level"
                     onChange={() => this.setIntermediate() }
                     checked={level === 'intermediate'}
             />
-            Intermediate
+            <span className="levelType">Intermediate</span>
           </label>
-          <label>
+          <label className="levelSelect">
             <input type="radio"
                    name="level"
                    onChange={ () => this.setExpert() }
                    checked={level === 'expert'}
             />
-            Expert
+            <span className="levelType">Expert</span>
           </label>
         </div>
         <div>
-          <span> {this.state.numMines - this.state.numFlags}</span>
-          <span onClick={ () => this.resetGame() }>
-            <span className="face"><Face gameStatus={this.state.gameStatus} /></span>
-          </span>
-          <span>{this.state.countdown}</span>
-          <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={ () => this.setGameOver() } addNumRevealedCells={ () => this.addNumRevealedCells() } checkNumFlags={ () => this.checkNumFlags() } />
+          <div className="gameInfo">
+            <span className="gameInfoRight">{this.state.numMines - this.state.numFlags}</span>
+            <span onClick={ () => this.resetGame() }>
+              <span className="face"><Face gameStatus={this.state.gameStatus} /></span>
+            </span>
+            <span className="gameInfoLeft">{this.state.countdown}</span>
+          </div>
+          <div>
+            <Board numRevealedCells={this.state.numRevealedCells} numMines={this.state.numMines} numRows={this.state.numRows} numColumns={this.state.numColumns} setGameOver={ () => this.setGameOver() } addNumRevealedCells={ () => this.addNumRevealedCells() } countNumFlags={ () => this.countNumFlags() } />
+          </div>
         </div>
       </div>
     );

@@ -14,6 +14,12 @@
 
 .coveredCell {
   background-color: blue;
+  height: 100%;
+}
+
+.revealedCell {
+  background-color: #ddd;
+  border: 1px solid #ddd;
 }
 
 .mineCell {

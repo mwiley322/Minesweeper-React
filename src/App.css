@@ -1,3 +1,23 @@
 .gameBoard {
   margin: 0 auto;
 }
+
+.gameInfo {
+  padding: 20px;
+}
+
+.gameInfoRight {
+  padding-right: 7%;
+}
+
+.gameInfoLeft {
+  padding-left: 7%;
+}
+
+.levelSelect {
+  padding: 15px;
+}
+
+.levelType {
+  padding-left: 6px;
+}

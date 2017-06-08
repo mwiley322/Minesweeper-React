@@ -1,18 +1,14 @@
 import React from 'react';
 import Cell from './Cell'
-
+import './App.css';
 
 export default class Row extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        cells : props.cells
+      cells : props.cells
     };
   }
-
-componentWillMount() {
-  console.log(this.state.cells);
-}
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -20,16 +16,24 @@ componentWillMount() {
     });
   }
 
-  render() {
-    var Cells = this.state.cells.map((cell, index) => {
+  reveal() {
+    this.props.reveal();
+  }
+
+  mark() {
+    this.props.mark();
+  }
+
+  render(props) {
+    var cells = this.state.cells.map((cell, index) => {
       return (
-        <Cell key={index.toString()} cell={[cell]} reveal={this.props.reveal} mark={this.props.mark} />
+        <Cell key={index.toString()} cell={cell} reveal={ () => this.reveal() } mark={ () => this.mark() } />
       );
     });
     return (
       <tbody>
         <tr>
-          {Cells}
+          {cells}
         </tr>
       </tbody>
     )

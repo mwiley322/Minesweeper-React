@@ -34,30 +34,30 @@ export default class Cell extends React.Component {
   }
 
   render() {
-    var cell = () => {
-      if(this.state.isRevealed) {
-        if(this.state.hasMine) {
+    let cell = (props) => {
+      if(props.isRevealed) {
+        if(props.hasMine) {
           return (
-            <div className="mineCell">
-              <span>mine</span>
+            <div className="coveredCell revealedCell">
+              <span className="mineCell">mine</span>
             </div>
           );
         } else {
           return (
-            <div class="revealedCell">
-              <span>{this.state.numNeighboringMines}</span>
+            <div className="coveredCell revealedCell">
+              <span>{props.numNeighboringMines}</span>
             </div>
           );
         }
-      } else if (this.state.hasFlag) {
+      } else if (props.hasFlag) {
         return (
-          <div class="flagCell">
-            <span>flag</span>
+          <div className="coveredCell revealedCell">
+            <span className="flagCell">flag</span>
           </div>
         );
       } else {
         return (
-          <div class="coveredCell"></div>
+          <div className="coveredCell"></div>
         );
       }
     }
