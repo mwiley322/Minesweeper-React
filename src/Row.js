@@ -15,19 +15,21 @@ export default class Row extends React.Component {
       cells: nextProps.cells
     });
   }
-
-  reveal() {
-    this.props.reveal();
-  }
+  //
+  // reveal(cell) {
+  //   this.props.reveal(cell);
+  // }
 
   mark() {
     this.props.mark();
   }
 
-  render(props) {
-    var cells = this.state.cells.map((cell, index) => {
+
+
+  render() {
+    let cells = this.state.cells.map((cell, index) => {
       return (
-        <Cell key={index.toString()} cell={cell} reveal={ () => this.reveal() } mark={ () => this.mark() } />
+        <Cell key={index.toString()} cell={cell} reveal={ () => this.props.reveal(cell) } mark={ () => this.mark() }/>
       );
     });
     return (

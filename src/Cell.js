@@ -22,9 +22,10 @@ export default class Cell extends React.Component {
     })
   }
 
-  reveal() {
-    this.props.reveal(this.props.cell);
-  }
+  // reveal(cell) {
+  //   console.log('REVEAL CELL FUNCTION', this.props.reveal(cell));
+  //   this.props.reveal(cell);
+  // }
 
   mark(e) {
     e.preventDefault();
@@ -41,7 +42,7 @@ export default class Cell extends React.Component {
             <span className="mineCell">!</span>
           </div>
         );
-        //this parameter goes below with the commented out portion 
+        //this parameter goes below with the commented out portion
       } else if (this.state.hasFlag) {
         return (
           <div className="coveredCell revealedCell">
@@ -63,9 +64,11 @@ export default class Cell extends React.Component {
     // }
   }
 
+
+
   render() {
     return (
-      <td className="cell" onClick={ () => this.reveal() } onContextMenu={ () => this.mark() }>
+      <td className="cell" onClick= {() => this.props.reveal(this.props.cell) } onContextMenu={ () => this.mark(this.props.cell) }>
         {this.findCell()}
       </td>
     );
