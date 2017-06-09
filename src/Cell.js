@@ -5,6 +5,8 @@ export default class Cell extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
+        x: props.cell.x,
+        y: props.cell.y,
         hasMine: props.cell.hasMine,
         hasFlag: props.cell.hasFlag,
         isRevealed: props.cell.isRevealed,
@@ -15,6 +17,8 @@ export default class Cell extends React.Component {
 //the next time this components receives props(likely when another cell is clicked, we will get its information)
   componentWillReceiveProps(nextProps) {
     this.setState({
+      x: nextProps.cell.x,
+      y: nextProps.cell.y,
       hasMine: nextProps.cell.hasMine,
       hasFlag: nextProps.cell.hasFlag,
       isRevealed: nextProps.cell.isRevealed,
@@ -22,17 +26,12 @@ export default class Cell extends React.Component {
     })
   }
 
-  // reveal(cell) {
-  //   console.log('REVEAL CELL FUNCTION', this.props.reveal(cell));
-  //   this.props.reveal(cell);
+  // mark(e) {
+  //   e.preventDefault();
+  //   if(!this.state.isRevealed) {
+  //     this.props.mark(this.props.cell);
+  //   }
   // }
-
-  mark(e) {
-    e.preventDefault();
-    if(!this.state.isRevealed) {
-      this.props.mark(this.props.cell);
-    }
-  }
 
   findCell() {
     // if(this.state.isRevealed) {

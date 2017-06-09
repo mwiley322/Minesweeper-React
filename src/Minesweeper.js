@@ -36,7 +36,7 @@ export default class Minesweeper extends React.Component {
   }
 
   checkForGameStatus() {
-    //if the number of mines added with the number of revealed cells without bombs is greater than or equal to the amount of cells on the table,
+    //if the number of mines + number of revealed cells without bombs is greater than or equal to the amount of cells on the table,
     // then game status can be set back to initialized in preparation for new game.
     if (this.state.numMines + this.state.numRevealedCells >= this.state.numRows * this.state.numColumns) {
       this.setState({
@@ -72,7 +72,6 @@ export default class Minesweeper extends React.Component {
   }
 
   resetGame() {
-    console.log('resetting game!')
     //reset timer
     clearInterval(this.interval);
     this.setState({
@@ -135,14 +134,16 @@ export default class Minesweeper extends React.Component {
         />
         <div>
           <div id="gameInfo">
-            <span id="gameInfoRight" title="Mines remaining on the board">{this.state.numMines - this.state.numFlags}</span>
+            <span id="gameInfoRight" title="Mines remaining on the board">
+              Mines: {this.state.numMines - this.state.numFlags}
+            </span>
             <span onClick={ () => this.resetGame() }>
               <span id="face" title="Restart game">
-                <Face gameStatus={this.state.gameStatus}  onClick={ () => this.resetGame() } />
+                <Face gameStatus={this.state.gameStatus} onClick={ () => this.resetGame() } />
               </span>
             </span>
             <span id="gameInfoLeft" title="Time spent this round">
-              {this.state.countdown}
+              Timer: {this.state.countdown}
             </span>
           </div>
           <div>

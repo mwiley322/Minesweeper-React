@@ -10,26 +10,26 @@ export default class Row extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      cells: nextProps.cells
-    });
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     cells: nextProps.cells
+  //   });
+  // }
+  //
+  reveal(cell) {
+    this.props.reveal(cell);
   }
   //
-  // reveal(cell) {
-  //   this.props.reveal(cell);
+  // mark() {
+  //   this.props.mark();
   // }
-
-  mark() {
-    this.props.mark();
-  }
 
 
 
   render() {
-    let cells = this.state.cells.map((cell, index) => {
+    let cells = this.props.cells.map((cell, index) => {
       return (
-        <Cell key={index.toString()} cell={cell} reveal={ () => this.props.reveal(cell) } mark={ () => this.mark() }/>
+        <Cell key={index.toString()} cell={cell} reveal={this.reveal.bind(this, cell)} mark={ () => this.mark() }/>
       );
     });
     return (

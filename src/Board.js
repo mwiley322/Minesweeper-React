@@ -22,7 +22,6 @@ export default class Board extends React.Component {
   //this function puts all cells in their location & sets the mines randomly throughout
   createGameBoard(props) {
     var gameBoard = [];
-
     //create a cell object with properties for each x-y coordinate on the gameboard
     for ( var row = 0; row < props.numRows; row++ ) {
       //each new row needs a new array to avoid a single line of the cells
@@ -38,9 +37,8 @@ export default class Board extends React.Component {
         });
       }
     }
-
     // place mines randomly throughout the gameboard
-    for (var i = 0; i < props.numMines; i++) {
+    for ( var i = 0; i < props.numMines; i++ ) {
       var cell = gameBoard[ Math.floor(Math.random() * props.numRows) ][ Math.floor(Math.random() * props.numColumns) ];
       if (cell.hasMine) {
         //decrement the counter so that it just goes and finds another place to put that mine
@@ -132,10 +130,10 @@ export default class Board extends React.Component {
     //   }
     // }
 
-  render(props) {
+  render() {
     var Rows = this.state.rows.map((row, index) => {
       return(
-        <Row key={index.toString()} cells={row} reveal={ () => this.reveal() } mark={ () => this.mark() } />
+        <Row key={index.toString()} cells={row} reveal={this.reveal} mark={ () => this.mark() } />
       );
     });
     return (
