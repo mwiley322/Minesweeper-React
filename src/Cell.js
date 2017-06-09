@@ -34,7 +34,7 @@ export default class Cell extends React.Component {
   }
 
   findCell() {
-    // if(this.state.isRevealed) {
+    if(this.state.isRevealed) {
       if(this.state.hasMine) {
         return (
           <div className="coveredCell revealedCell">
@@ -42,25 +42,32 @@ export default class Cell extends React.Component {
           </div>
         );
         //this parameter goes below with the commented out portion
-      } else if (this.state.hasFlag) {
-        return (
-          <div className="coveredCell revealedCell">
-            <span className="flagCell">flag</span>
-          </div>
-        );
       } else {
-        return (
-          <div className="coveredCell revealedCell">
-            <span>{this.state.numNeighboringMines}</span>
-          </div>
-        );
+        if (this.state.numNeighboringMines > 0) {
+          return (
+            <div className="coveredCell revealedCell">
+              <span>{this.state.numNeighboringMines}</span>
+            </div>
+          );
+        } else {
+          return (
+            <div className="coveredCell revealedCell">
+              <span></span>
+            </div>
+          );
+        }
       }
-
-    // } else {
-    //   return (
-    //     <div className="coveredCell"></div>
-    //   );
-    // }
+    } else if (this.state.hasFlag) {
+      return (
+        <div className="coveredCell revealedCell">
+          <span className="flagCell">flag</span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="coveredCell"></div>
+      );
+    }
   }
 
 

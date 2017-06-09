@@ -83,19 +83,19 @@ export default class Board extends React.Component {
       var num = this.countMines(cell);
       var rows = this.state.rows;
       //if the cell hasn't already been clicked and revealed, add it to the counter that checks whether the game status should change
-      // if (!rows[cell.y][cell.x].isRevealed) {
-      //   this.props.addNumRevealedCells();
-      // }
+      if (!rows[cell.y][cell.x].isRevealed) {
+        this.props.addNumRevealedCells();
+      }
       //cell is revealed and visible
       rows[cell.y][cell.x].isRevealed = true;
       rows[cell.y][cell.x].numNeighboringMines = cell.hasMine ? "!" : num;
       this.setState({
         rows : rows
       });
-      // if (rows[cell.y][cell.x].hasFlag) {
-      //   rows[cell.y][cell.x].hasFlag = false;
-      //   props.countNumFlags(-1);
-      // }
+      if (rows[cell.y][cell.x].hasFlag) {
+        rows[cell.y][cell.x].hasFlag = false;
+        this.props.countNumFlags(-1);
+      }
       //if the cell does not have any neighboring mines, reveal those around it.
       if (!cell.hasMine && num === 0) {
         this.revealAround(cell);
