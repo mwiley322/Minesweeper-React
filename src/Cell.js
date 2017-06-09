@@ -49,19 +49,11 @@ export default class Cell extends React.Component {
           </div>
         );
       } else {
-        if (this.state.numNeighboringMines > 0) {
-          return (
-            <div className="coveredCell revealedCell">
-              <span>{this.state.numNeighboringMines}</span>
-            </div>
-          );
-        } else {
-          return (
-            <div className="coveredCell revealedCell">
-              <span>-</span>
-            </div>
-          );
-        }
+        return (
+          <div className="coveredCell revealedCell">
+            <span>{this.state.numNeighboringMines}</span>
+          </div>
+        );
       }
 
     // } else {
@@ -75,7 +67,7 @@ export default class Cell extends React.Component {
 
   render() {
     return (
-      <td className="cell" onClick= {() => this.props.reveal(this.props.cell) } onContextMenu={ () => this.mark(this.props.cell) }>
+      <td className="cell" onClick= { () => this.props.reveal(this.props.cell) } onContextMenu={ () => this.mark(this.props.cell) }>
         {this.findCell()}
       </td>
     );

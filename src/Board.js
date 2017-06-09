@@ -69,6 +69,7 @@ export default class Board extends React.Component {
       }
     }
     this.numNeighboringMines = neighboringMines;
+    console.log('NEIGHBORS', neighboringMines);
     return neighboringMines;
   }
 
@@ -79,15 +80,15 @@ export default class Board extends React.Component {
       if (cell.hasMine) {
         this.props.setGameOver();
       }
-      // var num = this.countMines(cell);
+      var num = this.countMines(cell);
       var rows = this.state.rows;
       //if the cell hasn't already been clicked and revealed, add it to the counter that checks whether the game status should change
       // if (!rows[cell.y][cell.x].isRevealed) {
-      //   props.addNumRevealedCells();
+      //   this.props.addNumRevealedCells();
       // }
       //cell is revealed and visible
       rows[cell.y][cell.x].isRevealed = true;
-      // rows[cell.y][cell.x].numNeighboringMines = cell.hasMine ? "!" : num;
+      rows[cell.y][cell.x].numNeighboringMines = cell.hasMine ? "!" : num;
       this.setState({
         rows : rows
       });
@@ -96,9 +97,9 @@ export default class Board extends React.Component {
       //   props.countNumFlags(-1);
       // }
       //if the cell does not have any neighboring mines, reveal those around it.
-      // if (!cell.hasMine && num === 0) {
-      //   this.revealAround(cell);
-      // }
+      if (!cell.hasMine && num === 0) {
+        this.revealAround(cell);
+      }
 
     }
 
@@ -116,22 +117,21 @@ export default class Board extends React.Component {
 
 
     //if the player hits a cell that has 0 then it must reveal all of those that it touches if they have 0 recursively until it hits a wall of cells with neighboring mines
-    // revealAround(cell, props){
-    //   var rows = this.state.rows;
-    //
-    //   for ( var row = -1; row <= 1; row++ ) {
-    //     for ( var col = -1; col <= 1; col++ ) {
-    //       if (cell.y - 0 + row >= 0
-    //           && cell.x - 0 + col >= 0
-    //           && cell.y - 0 + row < rows.length
-    //           && cell.x - 0 + col < rows[0].length
-    //           && !rows[cell.y - 0 + row][cell.x - 0 + col].hasMine
-    //           && !rows[cell.y - 0 + row][cell.x - 0 + col].isRevealed) {
-    //             this.reveal(rows[cell.y - 0 + row][cell.x - 0 + col], props);
-    //       }
-    //     }
-    //   }
-    // }
+    revealAround(cell, props){
+      var rows = this.state.rows;
+      for ( var row = -1; row <= 1; row++ ) {
+        for ( var col = -1; col <= 1; col++ ) {
+          if (cell.y - 0 + row >= 0
+              && cell.x - 0 + col >= 0
+              && cell.y - 0 + row < rows.length
+              && cell.x - 0 + col < rows[0].length
+              && !rows[cell.y - 0 + row][cell.x - 0 + col].hasMine
+              && !rows[cell.y - 0 + row][cell.x - 0 + col].isRevealed) {
+                this.reveal(rows[cell.y - 0 + row][cell.x - 0 + col], props);
+          }
+        }
+      }
+    }
 
   render() {
     var Rows = this.state.rows.map((row, index) => {
