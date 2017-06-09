@@ -26,12 +26,12 @@ export default class Cell extends React.Component {
     })
   }
 
-  // mark(e) {
-  //   e.preventDefault();
-  //   if(!this.state.isRevealed) {
-  //     this.props.mark(this.props.cell);
-  //   }
-  // }
+  mark(e) {
+    e.preventDefault();
+    if(!this.state.isRevealed) {
+      this.props.mark(this.props.cell);
+    }
+  }
 
   findCell() {
     // if(this.state.isRevealed) {
@@ -49,11 +49,19 @@ export default class Cell extends React.Component {
           </div>
         );
       } else {
-        return (
-          <div className="coveredCell revealedCell">
-            <span>{this.state.numNeighboringMines}</span>
-          </div>
-        );
+        if (this.state.numNeighboringMines > 0) {
+          return (
+            <div className="coveredCell revealedCell">
+              <span>{this.state.numNeighboringMines}</span>
+            </div>
+          );
+        } else {
+          return (
+            <div className="coveredCell revealedCell">
+              <span>-</span>
+            </div>
+          );
+        }
       }
 
     // } else {

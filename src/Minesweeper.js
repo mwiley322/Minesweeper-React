@@ -30,8 +30,9 @@ export default class Minesweeper extends React.Component {
   }
 
   setGameOver() {
+    console.log('GAME IS OVER');
     this.setState({
-      status: 'gameOver'
+      gameStatus: 'gameOver'
     });
   }
 
