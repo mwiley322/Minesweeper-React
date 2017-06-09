@@ -26,13 +26,6 @@ export default class Cell extends React.Component {
     })
   }
 
-  // mark(e, cell) {
-  //   e.preventDefault();
-  //   if(!this.state.isRevealed) {
-  //     this.props.mark(cell);
-  //   }
-  // }
-
   findCell() {
     let numMines = this.state.numNeighboringMines;
     if(this.state.isRevealed) {
@@ -61,8 +54,6 @@ export default class Cell extends React.Component {
       );
     }
   }
-
-
 
   render() {
     return (

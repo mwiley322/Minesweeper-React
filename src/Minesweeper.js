@@ -25,10 +25,6 @@ export default class Minesweeper extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.interval = [];
-  }
-
   setGameOver() {
     this.setState({
       gameStatus: 'gameOver'
@@ -54,9 +50,9 @@ export default class Minesweeper extends React.Component {
     }
   }
 
-  countNumFlags(flag) {
+  countNumFlags(num) {
     this.setState({
-      numFlags: this.state.numFlags + flag
+      numFlags: this.state.numFlags + num
     });
   }
 
@@ -152,7 +148,7 @@ export default class Minesweeper extends React.Component {
                    numColumns={this.state.numColumns}
                    setGameOver={ () => this.setGameOver() }
                    addNumRevealedCells={ () => this.addNumRevealedCells() }
-                   countNumFlags={ () => this.countNumFlags() }
+                   countNumFlags={ this.countNumFlags.bind(this) }
             />
           </div>
         </div>

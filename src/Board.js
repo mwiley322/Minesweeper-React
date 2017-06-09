@@ -108,7 +108,7 @@ export default class Board extends React.Component {
       this.setState({
         rows : rows
       });
-      this.props.countNumFlags(thisCell.hasFlag ? "flag" : -1);
+      this.props.countNumFlags(thisCell.hasFlag ? 1 : -1);
     }
 
     //if the player hits a cell that has 0 then it must reveal all of those that it touches if they have 0 recursively until it hits a wall of cells with neighboring mines
