@@ -3,15 +3,15 @@ import './Cell.css';
 
 export default class Cell extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        x: props.cell.x,
-        y: props.cell.y,
-        hasMine: props.cell.hasMine,
-        hasFlag: props.cell.hasFlag,
-        isRevealed: props.cell.isRevealed,
-        numNeighboringMines: 0
-      }
+    super(props);
+    this.state = {
+      x: props.cell.x,
+      y: props.cell.y,
+      hasMine: props.cell.hasMine,
+      hasFlag: props.cell.hasFlag,
+      isRevealed: props.cell.isRevealed,
+      numNeighboringMines: 0
+    }
   }
 
 //the next time this components receives props(likely when another cell is clicked, we will get its information)
@@ -26,14 +26,15 @@ export default class Cell extends React.Component {
     })
   }
 
-  mark(e) {
-    e.preventDefault();
-    if(!this.state.isRevealed) {
-      this.props.mark(this.props.cell);
-    }
-  }
+  // mark(e, cell) {
+  //   e.preventDefault();
+  //   if(!this.state.isRevealed) {
+  //     this.props.mark(cell);
+  //   }
+  // }
 
   findCell() {
+    let numMines = this.state.numNeighboringMines;
     if(this.state.isRevealed) {
       if(this.state.hasMine) {
         return (
@@ -41,26 +42,17 @@ export default class Cell extends React.Component {
             <span className="mineCell">!</span>
           </div>
         );
-        //this parameter goes below with the commented out portion
       } else {
-        if (this.state.numNeighboringMines > 0) {
-          return (
-            <div className="coveredCell revealedCell">
-              <span>{this.state.numNeighboringMines}</span>
-            </div>
-          );
-        } else {
-          return (
-            <div className="coveredCell revealedCell">
-              <span></span>
-            </div>
-          );
-        }
+        return (
+          <div className="coveredCell revealedCell">
+            <span>{numMines > 0 ? numMines : '-'}</span>
+          </div>
+        );
       }
-    } else if (this.state.hasFlag) {
+    } else if (!this.state.isRevealed && this.state.hasFlag) {
       return (
         <div className="coveredCell revealedCell">
-          <span className="flagCell">flag</span>
+          <span className="flagCell">.</span>
         </div>
       );
     } else {
@@ -74,7 +66,7 @@ export default class Cell extends React.Component {
 
   render() {
     return (
-      <td className="cell" onClick= { () => this.props.reveal(this.props.cell) } onContextMenu={ () => this.mark(this.props.cell) }>
+      <td className="cell" onClick={ () => this.props.reveal(this.props.cell) } onContextMenu={ (e) => this.props.mark(e, this.props.cell) }>
         {this.findCell()}
       </td>
     );

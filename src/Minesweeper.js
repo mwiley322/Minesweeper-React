@@ -30,7 +30,6 @@ export default class Minesweeper extends React.Component {
   }
 
   setGameOver() {
-    console.log('GAME IS OVER');
     this.setState({
       gameStatus: 'gameOver'
     });
@@ -63,12 +62,12 @@ export default class Minesweeper extends React.Component {
 
   addNumRevealedCells() {
     //begin timer
-    if(this.state.numRevealedCells === 0){
+    if (this.state.numRevealedCells === 0) {
       this.interval = setInterval(this.timeCountdown.bind(this), 1000);
     }
     //begin tracking how many cells have been revealed
     this.setState({
-      numRevealedCells : this.state.numRevealedCells++
+      numRevealedCells: this.state.numRevealedCells++
     });
   }
 
@@ -79,7 +78,8 @@ export default class Minesweeper extends React.Component {
       gameStatus: 'playing',
       numFlags: 0,
       numRevealedCells: 0,
-      countdown: 0
+      countdown: 0,
+      numMines: 10
     });
   }
 
@@ -138,10 +138,8 @@ export default class Minesweeper extends React.Component {
             <span id="gameInfoRight" title="Mines remaining on the board">
               Mines: {this.state.numMines - this.state.numFlags}
             </span>
-            <span onClick={ () => this.resetGame() }>
-              <span id="face" title="Restart game">
-                <Face gameStatus={this.state.gameStatus} onClick={ () => this.resetGame() } />
-              </span>
+            <span id="face" title="Restart game" onClick={ () => this.resetGame() }>
+              <Face gameStatus={this.state.gameStatus} />
             </span>
             <span id="gameInfoLeft" title="Time spent this round">
               Timer: {this.state.countdown}

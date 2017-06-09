@@ -16,7 +16,6 @@ export default class Row extends React.Component {
     });
   }
 
-
   render() {
     let cells = this.props.cells.map((cell, index) => {
       return (
