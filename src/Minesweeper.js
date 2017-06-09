@@ -36,7 +36,7 @@ export default class Minesweeper extends React.Component {
     // then game status can be set back to initialized in preparation for new game.
     if (this.state.numMines + this.state.numRevealedCells >= this.state.numRows * this.state.numColumns) {
       this.setState({
-        status: 'initialized'
+        gameStatus: 'initialized'
       });
     }
   }
@@ -134,7 +134,7 @@ export default class Minesweeper extends React.Component {
             <span id="gameInfoRight" title="Mines remaining on the board">
               Mines: {this.state.numMines - this.state.numFlags}
             </span>
-            <span id="face" title="Restart game" onClick={ () => this.resetGame() }>
+            <span id="face" title="Restart game" onClick={ this.resetGame.bind(this) }>
               <Face gameStatus={this.state.gameStatus} />
             </span>
             <span id="gameInfoLeft" title="Time spent this round">

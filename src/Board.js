@@ -73,42 +73,40 @@ export default class Board extends React.Component {
 
 
     reveal(cell) {
-      //when player hits a mine, it is game over regardless of how far they have gone.
-      if (cell.hasMine) {
-        this.props.setGameOver();
-      }
       var num = this.countMines(cell);
       var rows = this.state.rows;
       //if the cell hasn't already been clicked and revealed, add it to the counter that checks whether the game status should change & starts the timer
-      if (!rows[cell.y][cell.x].isRevealed) {
+      if (!cell.isRevealed) {
         this.props.addNumRevealedCells();
       }
       //cell is revealed and visible
-      rows[cell.y][cell.x].isRevealed = true;
-      rows[cell.y][cell.x].numNeighboringMines = cell.hasMine ? "!" : num;
+      cell.isRevealed = true;
+      cell.numNeighboringMines = cell.hasMine ? "!" : num;
       this.setState({
         rows : rows
       });
-      if (rows[cell.y][cell.x].hasFlag) {
-        rows[cell.y][cell.x].hasFlag = false;
+      if (cell.hasFlag) {
+        cell.hasFlag = false;
         this.props.countNumFlags(-1);
       }
       //if the cell does not have any neighboring mines, reveal those around it.
       if (!cell.hasMine && num === 0) {
         this.revealAround(cell);
       }
+      //when player hits a mine, it is game over regardless of how far they have gone.
+      if (cell.hasMine) {
+        this.props.setGameOver();
+      }
     }
 
     mark(e, cell) {
       e.preventDefault();
       var rows = this.state.rows
-      var thisCell = rows[cell.y][cell.x];
-      thisCell.hasFlag = !thisCell.hasFlag;
-      //update the rows
+      cell.hasFlag = !cell.hasFlag;
       this.setState({
         rows : rows
       });
-      this.props.countNumFlags(thisCell.hasFlag ? 1 : -1);
+      this.props.countNumFlags(cell.hasFlag ? 1 : -1);
     }
 
     //if the player hits a cell that has 0 then it must reveal all of those that it touches if they have 0 recursively until it hits a wall of cells with neighboring mines
